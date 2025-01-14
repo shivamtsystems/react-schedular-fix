@@ -94,10 +94,15 @@ const CalendarProvider = ({
   const loadMore = useCallback(
     (direction: Direction) => {
       const cols = getVisibleCols(zoom);
+      let weekOffset: number;
       let offset: number;
       switch (zoom) {
         case 0:
-          offset = cols * 7;
+          weekOffset = cols * 7;
+          offset = Math.round(weekOffset);
+          if (offset % 2 !== 0) {
+            offset += offset > weekOffset ? 2 : 5;
+          }
           break;
         case 1:
           offset = cols;
